@@ -1,0 +1,102 @@
+{% extends "layout.html" %}
+
+{% block head %}
+<head>
+    <meta charset="utf-8" />
+    <title>XiyouFourm</title>
+    <link rel="stylesheet" href="../static/CSS/homeCss.css">
+    <link rel="stylesheet" href="../static/lib/editor.md/examples/css/style.css" />
+    <link rel="stylesheet" href="../static/lib/editor.md/css/editormd.css" />
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+</head>
+{% endblock %}
+
+{% block body %}
+<div class="wrap">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <div>
+                    <ul class="nav nav-tabs nav-tabs-zen mb10 mt30">
+                        {% if type == 'new' %}
+                        <li class="active"><a href="/articles/new">最新的</a></li>
+                        <li><a href="/articles/hot">最热的</a></li>
+                        {% elif type == 'hot' %}
+                        <li><a href="/articles/new">最新的</a></li>
+                        <li class="active"><a href="/articles/hot">最热的</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div style="margin-top: 20px">
+                    {% for article in articles %}
+                    <section>
+                        <div style="margin-bottom: 10px;border-bottom: 1px solid #EEEEEE;">
+                            <div class="row" >
+                                <div class="col-xs-1" style="border-right: 1px solid #EEEEEE;">
+                                    {% if article['article'][4] >= 1000 %}
+                                    <div class="qa-rank arti-vote">{{ article['article'][4]//1000 + article['article'][4]%1000//100/10 }}k<br><small>推荐</small></div>
+                                    {% else %}
+                                    <div class="qa-rank arti-vote">{{ article['article'][4] }}<br><small>推荐</small></div>
+                                    {% endif %}
+                                    {% if article['article'][3] >= 1000 %}
+                                    <div class="qa-rank arti-rank">{{ article['article'][3]//1000 + article['article'][3]%1000//100/10 }}<br><small>访问</small></div>
+                                    {% else %}
+                                    <div class="qa-rank arti-rank">{{ article['article'][3] }}<br><small>访问</small></div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-xs-11">
+                                    <div><h4><a href="/a/{{ article['article'][0] }}" data-id='{{ article['article'][0] }}' style="color: #333">{{ article['article'][1] }}</a></h4></div>
+                                    <div class="mh35"><p class="arti-summ">{{ article['article'][2] }}...</p></div>
+                                    <div>
+                                        <ul class="pull-left">
+                                            <li class="arti-info pull-left">{{ article['nickname'] }}&nbsp&nbsp{{ article['article'][5] }}&nbsp&nbsp发表</li>
+                                            {% for tag in article['category'] %}
+                                            <li class="pull-left mr5"><a class="tag">{{ tag }}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-md-3" style="height: 600px; border: 1px solid black">
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
+<script src="../static/JS/handle.js"></script>
+
+<script>
+    window.onload = function () {
+        $('.carousel').carousel();
+
+    };
+
+    $(function(){
+        $(window).scroll(function(){
+            //获取高度
+            height = $(window).scrollTop();
+            //如果小于 200 px 则隐藏
+            if(height < 200){
+                $('.nav-classification').fadeIn();
+            }else{
+                $('.nav-classification').fadeOut();
+            }
+        });
+    });
+</script>
+{% endblock %}

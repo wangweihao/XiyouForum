@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="utf-8" />
+    <title>XiyouFourm</title>
+    <link rel="stylesheet" href="../static/lib/editor.md/examples/css/style.css" />
+    <link rel="stylesheet" href="../static/lib/editor.md/css/editormd.css" />
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+</head>
+<body>
+<div>
+    <nav class="navbar navbar-default" role="navigation" style="z-index: 100">
+        <div class="container">
+            <h4>写文章</h4>
+        </div>
+    </nav>
+    <div class="input-group input-group-lg" style="width: 90%;margin-left: auto;margin-right: auto;margin-bottom: 10px;">
+        <input type="text" class="form-control" placeholder="标题" id="title">
+    </div>
+    <div class="input-group" style="width: 90%;margin-left: auto;margin-right: auto;margin-bottom: 10px;">
+        <input type="text" class="form-control" placeholder="标签,如 Java;高数 中间用英文分号分割" id="class-tab">
+    </div>
+    <div id="layout">
+        <div id="test-editormd">
+            <textarea style="display:none;"></textarea>
+        </div>
+    </div>
+    <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation" style="z-index: 100">
+        <div class="container">
+            <button type="button" class="btn btn-default" style="float: right;margin-top: 7px" onclick="submit()">提交</button>
+        </div>
+    </nav>
+</div>
+<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="../static/lib/editor.md/editormd.min.js"></script>
+<script src="../static/JS/handle.js"></script>
+<script type="text/javascript">
+    var testEditor;
+
+    $(function() {
+        testEditor = editormd("test-editormd", {
+            width   : "90%",
+            height  : 560,
+            syncScrolling : "single",
+            path    : "../static/lib/editor.md/lib/",
+            toolbarIcons : function() {
+                return ["undo", "redo", "|", "bold", "italic", "quote", "|", "list-ul", "list-ol", "hr", "|", "preview", "image", "|", "code-block", "table", "datetime",  "|", "clear", "help", "testIcon", "testIcon2", "file", "faicon", "||", "watch",  "preview", "testIcon"]
+            },
+            imageUpload    : true,
+            imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+            imageUploadURL : host + '/upload/image'
+        });
+    });
+
+
+    function submit() {
+        request = {
+            'title': $('#title').val(),
+            'tab'  : $('#class-tab').val(),
+            'content': testEditor.getMarkdown()
+        };
+        if (request['title'] == '' || request['content'] == ''){
+            alert('请填写问题和内容')
+            return;
+        }
+        $.ajax({
+            type:'POST',
+            url: host + '/api/user/write_article',
+            data : JSON.stringify(request),
+            dataType : 'json',
+            async: false,
+            success : function () {
+                alert('success');
+                window.location.href='/articles/new';
+            },
+            error   : function () {
+                alert('failure');
+            }
+        })
+    }
+
+</script>
+</body>
+</html>

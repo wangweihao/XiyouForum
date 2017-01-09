@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+{% block head %}
+<head>
+    <meta charset="UTF-8">
+    <title>XiyouFourm</title>
+    <link rel="stylesheet" href="../static/CSS/homeCss.css">
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+</head>
+{% endblock %}
+<body>
+
+<div class="navbar-fixed">
+    <nav class="navbar navbar-inverse navbar-static-top" role="navigation" id="navbar">
+        <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 col-md-offset-1">
+                <div class="navbar-header">
+                    <a class="navbar-brand navbar-chara" href="http://xiyoulinux.org" style="color: floralwhite">Xiyou&nbsp<span style="color: dodgerblue">Forum</span></a>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                            data-target="#navbar-select" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="collapse navbar-collapse" aria-expanded="false" id="navbar-select">
+                <form class="col-md-2 navbar-form navbar-left" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="搜索问题...">
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-default">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+                    </div>
+                </form>
+                <ul class="col-md-4 nav navbar-nav">
+                    <li><a href="/" class="navbar-chara">首页</a></li>
+                    <li><a href="/questions/newest" class="navbar-chara">问答</a></li>
+                    <li><a href="/articles/new" class="navbar-chara">文章</a></li>
+                    <li><a href="#" class="navbar-chara">活动</a></li>
+                </ul>
+                {% if user.has_key('nickname') %}
+                    <div id="login-in">
+                    <!-- Single button -->
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="margin-top: 5px" >
+                            <img class="sz24" id="head_url" src={{ user['head_url'] }}>&nbsp
+                            <span id="u-nickname">{{ user['nickname'] }}</span>&nbsp<span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="/selfhome"><span class="glyphicon glyphicon-home"></span>&nbsp&nbsp&nbsp我的主页</a></li>
+                            <li><a href="/write/question"><span class="glyphicon glyphicon-leaf"></span>&nbsp&nbsp&nbsp提问</a></li>
+                            <li><a href="/write/article"><span class="glyphicon glyphicon-pencil"></span>&nbsp&nbsp&nbsp写文章</a></li>
+                            <li><a href="#"><span class="glyphicon glyphicon-send"></span>&nbsp&nbsp&nbsp私信</a></li>
+                            <li><a href="#"><span class="glyphicon glyphicon-cog"></span>&nbsp&nbsp&nbsp设置</a></li>
+                            <li class="divider"></li>
+                            <li><a onclick="quitLogin()"><span class="glyphicon glyphicon-log-out"></span>&nbsp&nbsp&nbsp退出</a></li>
+                        </ul>
+                    </div>
+                </div>
+                    <div class="hidden" id="login-out">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary navbar-btn" data-toggle="modal" data-target="#register-info" id="nav-reg-btn">
+                            注册
+                        </button>
+                        <button type="button" class="btn btn-primary navbar-btn" data-toggle="modal" data-target="#login-info" id="nav-login-btn">
+                            登录
+                        </button>
+                        <!-- login - Modal -->
+                        <div class="modal fade" id="login-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" id="log-close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <h4 class="modal-title" id="login-ModalLabel">登录</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-control-name row">
+                                            <div class="col-md-8 col-md-offset-2">
+                                                <span>Email</span>
+                                                <a class="pull-right hidden" id="email_tag" style="color: red">邮箱不能为空</a>
+                                                <input id="login-email" type="email" class="form-control" placeholder="Email...">
+                                            </div>
+                                        </div>
+                                        <div class="form-control-name row">
+                                            <div class="col-md-8 col-md-offset-2">
+                                                <span>密码</span>
+                                                <a class="pull-right" id="passwd_tag">忘记密码</a>
+                                                <input id="login-passwd" type="password" class="form-control" placeholder="密码，不少于6位">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                        <button type="button" class="btn btn-primary" onclick="loginCallback()" id="login-btn">登录</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- register - Modal -->
+                        <div class="modal fade" id="register-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" id="reg-close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <h4 class="modal-title" id="register-ModalLabel">注册</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-control-name row">
+                                            <div class="col-md-8 col-md-offset-2">
+                                                <span>花名</span>
+                                                <a class="pull-right hidden" id="reg-nickname_tag" style="color: red">花名不能为空</a>
+                                                <input id="nickname" type="text" class="form-control" placeholder="行走江湖敢问阁下花名是?">
+                                            </div>
+                                        </div>
+                                        <div class="form-control-name row">
+                                            <div class="col-md-8 col-md-offset-2">
+                                                <span>Email</span>
+                                                <a class="pull-right hidden" id="reg-email_tag" style="color: red">邮箱不能为空</a>
+                                                <input id="reg-email" type="email" class="form-control" placeholder="hello@xiyoulinux.org">
+                                            </div>
+                                        </div>
+                                        <div class="form-control-name row">
+                                            <div class="col-md-8 col-md-offset-2">
+                                                <span>密码</span>
+                                                <a class="pull-right hidden" id="reg-passwd_tag" style="color: red">密码不能为空</a>
+                                                <input id="reg-passwd" type="password" class="form-control" placeholder="请输入密码，不少于6位...">
+                                            </div>
+                                        </div>
+                                        <div class="form-control-name row">
+                                            <div class="col-md-8 col-md-offset-2">
+                                                <span>确认密码</span>
+                                                <a class="pull-right hidden" id="reg-repasswd_tag" style="color: red">密码不能为空</a>
+                                                <input id="reg-repasswd" type="password" class="form-control" placeholder="请再次输入密码...">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                        <button type="button" class="btn btn-primary" onclick="registerCallback()">注册</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                    <div class="hidden" id="login-in">
+                    <!-- Single button -->
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" style="margin-top: 5px">
+                            <img class="sz24" id="head_url" src={{ user['head_url'] }}>
+                            <span id="u-nickname">{{ user['nickname'] }}</span> <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#"><span class="glyphicon glyphicon-home"></span>&nbsp&nbsp&nbsp我的主页</a></li>
+                            <li><a href="write/question"><span class="glyphicon glyphicon-leaf"></span>&nbsp&nbsp&nbsp提问</a></li>
+                            <li><a href="write/question"><span class="glyphicon glyphicon-pencil"></span>&nbsp&nbsp&nbsp写文章</a></li>
+                            <li><a href="#"><span class="glyphicon glyphicon-send"></span>&nbsp&nbsp&nbsp私信</a></li>
+                            <li><a href="#"><span class="glyphicon glyphicon-cog"></span>&nbsp&nbsp&nbsp设置</a></li>
+                            <li class="divider"></li>
+                            <li><a onclick="quitLogin()"><span class="glyphicon glyphicon-log-out"></span>&nbsp&nbsp&nbsp退出</a></li>
+                        </ul>
+                    </div>
+                </div>
+                    <div id="login-out">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary navbar-btn" data-toggle="modal" data-target="#register-info" id="nav-reg-btn">
+                            注册
+                        </button>
+                        <button type="button" class="btn btn-primary navbar-btn" data-toggle="modal" data-target="#login-info" id="nav-login-btn">
+                            登录
+                        </button>
+                        <!-- login - Modal -->
+                        <div class="modal fade" id="login-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" id="log-close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <h4 class="modal-title" id="login-ModalLabel">登录</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-control-name row">
+                                            <div class="col-md-8 col-md-offset-2">
+                                                <span>Email</span>
+                                                <a class="pull-right hidden" id="email_tag" style="color: red">邮箱不能为空</a>
+                                                <input id="login-email" type="email" class="form-control" placeholder="Email...">
+                                            </div>
+                                        </div>
+                                        <div class="form-control-name row">
+                                            <div class="col-md-8 col-md-offset-2">
+                                                <span>密码</span>
+                                                <a class="pull-right" id="passwd_tag">忘记密码</a>
+                                                <input id="login-passwd" type="password" class="form-control" placeholder="密码，不少于6位">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                        <button type="button" class="btn btn-primary" onclick="loginCallback()" id="login-btn">登录</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- register - Modal -->
+                        <div class="modal fade" id="register-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" id="reg-close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <h4 class="modal-title" id="register-ModalLabel">注册</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-control-name row">
+                                            <div class="col-md-8 col-md-offset-2">
+                                                <span>花名</span>
+                                                <a class="pull-right hidden" id="reg-nickname_tag" style="color: red">花名不能为空</a>
+                                                <input id="nickname" type="text" class="form-control" placeholder="行走江湖敢问阁下花名是?">
+                                            </div>
+                                        </div>
+                                        <div class="form-control-name row">
+                                            <div class="col-md-8 col-md-offset-2">
+                                                <span>Email</span>
+                                                <a class="pull-right hidden" id="reg-email_tag" style="color: red">邮箱不能为空</a>
+                                                <input id="reg-email" type="email" class="form-control" placeholder="hello@xiyoulinux.org">
+                                            </div>
+                                        </div>
+                                        <div class="form-control-name row">
+                                            <div class="col-md-8 col-md-offset-2">
+                                                <span>密码</span>
+                                                <a class="pull-right hidden" id="reg-passwd_tag" style="color: red">密码不能为空</a>
+                                                <input id="reg-passwd" type="password" class="form-control" placeholder="请输入密码，不少于6位...">
+                                            </div>
+                                        </div>
+                                        <div class="form-control-name row">
+                                            <div class="col-md-8 col-md-offset-2">
+                                                <span>确认密码</span>
+                                                <a class="pull-right hidden" id="reg-repasswd_tag" style="color: red">密码不能为空</a>
+                                                <input id="reg-repasswd" type="password" class="form-control" placeholder="请再次输入密码...">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                        <button type="button" class="btn btn-primary" onclick="registerCallback()">注册</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div><!--container-fluid-->
+    </nav>
+    <div class="nav-classification">
+        <div class="container" style="width:80%; height: 30px; position: relative;overflow: hidden">
+            <img class="nav-classification-pic" src="../static/Image/fire.png">
+            <ul>
+                <li class="nav-item"><a href="#">Java</a></li>
+                <li class="nav-item"><a href="#">C++</a></li>
+                <li class="nav-item"><a href="#">C</a></li>
+                <li class="nav-item"><a href="#">Python</a></li>
+                <li class="nav-item"><a href="#">GoLang</a></li>
+                <li class="nav-item"><a href="#">JavaScript</a></li>
+                <li class="nav-item"><a href="#">Php</a></li>
+                <li class="nav-item"><a href="#">MySQL</a></li>
+                <li class="nav-item"><a href="#">MongoDB</a></li>
+                <li class="nav-item"><a href="#">Linux</a></li>
+                <li class="nav-item"><a href="#">Git</a></li>
+                <li class="nav-item"><a href="#">高等数学</a></li>
+                <li class="nav-item"><a href="#">大物</a></li>
+                <li class="nav-item"><a href="#">Linux</a></li>
+                <li class="nav-item"><a href="#">Git</a></li>
+                <li class="nav-item-more-link" style="float: right;position: absolute; top: 0;right: 0"><a href="#">更多</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% block body %}
+<div class="container">
+    <h3>{{ title }}</h3>
+    <div>
+        {{ content | safe }}
+    </div>
+</div>
+{% endblock %}
+
+
+<div id="footer" style="margin-top: 50px;bottom: 0">
+    <div class="container">
+        <div class="hidden-xs"></div>
+        <div class="copyright" style="text-align: center;font-size: 13px">
+            Copyright © 2016 XiyouLinux 兴趣小组 .<br>
+            free open share<br>
+        </div>
+    </div>
+</div>
+
+
+{% block script %}
+
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
+<script src="../static/JS/handle.js"></script>
+
+<script>
+    window.onload = function () {
+        $('.carousel').carousel();
+
+    };
+
+    $(function(){
+        $(window).scroll(function(){
+            //获取高度
+            height = $(window).scrollTop();
+            //如果小于 200 px 则隐藏
+            if(height < 200){
+                $('.nav-classification').fadeIn();
+            }else{
+                $('.nav-classification').fadeOut();
+            }
+        });
+    });
+
+
+</script>
+{% endblock %}
+
+</body>
+</html>

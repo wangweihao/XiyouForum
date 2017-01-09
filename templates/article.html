@@ -1,0 +1,204 @@
+{% extends "layout.html" %}
+
+{% block head %}
+<head>
+    <meta charset="utf-8" />
+    <title>XiyouFourm</title>
+    <link rel="stylesheet" href="../static/CSS/homeCss.css">
+    <link rel="stylesheet" href="../static/lib/editor.md/examples/css/style.css" />
+    <link rel="stylesheet" href="../static/lib/editor.md/css/editormd.css" />
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+</head>
+{% endblock %}
+
+{% block body %}
+
+<div class="wrap" id="wrap-top">
+    <div style="background-color: #f6f6f6;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9 col-sm-8 col-xs-12">
+                    <h3><span style="border: 1px solid grey;border-radius: 50%;padding: 4px 6px 5px 6px;font-size: 20px;line-height: 1;width: 28px;height: 28px;">文</span>&nbsp&nbsp{{ title }}</h3>
+                    <ul style="display: flex">
+                        <li class="tagClass" style="margin-right: 10px"><a class="tag">C++</a></li>
+                        <li class="tagClass" style="margin-right: 10px"><a class="tag">Java</a></li>
+                        <li>{{ time }}&nbsp&nbsp发表</li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-sm-4 col-xs-12" style="margin-top: 12px">
+                    <ul>
+                        <li>
+                            <button type="button" class="btn btn-default mr15 ot0">关注</button>
+                            <strong>20</strong>&nbsp关注
+                        </li>
+                    </ul>
+                    <ul>
+                        <li>
+                            <button type="button" class="btn btn-default mr15 ot0">收藏</button>
+                            <strong>20</strong>&nbsp收藏&nbsp&nbsp&nbsp
+                            <strong>{{ scan_time }}</strong>&nbsp浏览
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container mt30">
+        <div class="row">
+            <div class="col-xs-12 col-md-9">
+                <article style="min-height: 100px">
+                    <div style="position: absolute;text-align: center;line-height: 15px;width: 40px">
+                        <button id="btn-agree" data-id={{ aid }} type="button" class="btn btn-default mb10 ot0"><span class="glyphicon glyphicon-chevron-up"></span></button>
+                        {% if agree_time >= 1000 %}
+                            <span style="font-size: 18px">{{ agree_time//1000 + agree_time%1000//100/10}}k</span>
+                        {% else %}
+                            <span style="font-size: 18px">{{ agree_time }}</span>
+                        {% endif %}
+                        <button id="btn-oppose" data-id={{ aid }} type="button" class="btn btn-default mt10 ot0"><span class="glyphicon glyphicon-chevron-down"></span></button>
+                    </div>
+                    <div style="margin-left: 65px">
+                        {{ content | safe }}
+                    </div>
+                </article>
+                <div class="widget-answers" style="margin-top: 30px;">
+                    <div style="margin-bottom: 20px;border-bottom: 2px solid #CCCCCC">
+                        <h4><span id="comment-num">{{ comment_num }}</span>个评论</h4>
+                    </div>
+                    <ul class="comment-list">
+                        {% for comment in comments %}
+                        <li>
+                            <article class="widget-answers__item" style="min-height: 125px">
+{#                                <div style="position: absolute;text-align: center;line-height: 15px;width: 40px">#}
+{#                                    <button type="button" data-id={{ answer['answer'][0] }} class="btn btn-default btn-answ-agree mb10 ot0"><span class="glyphicon glyphicon-chevron-up"></span></button>#}
+{#                                        <span style="font-size: 18px">{{ answer['answer'][2] }}</span>#}
+{#                                    <button type="button" data-id={{ answer['answer'][0] }} class="btn btn-default btn-answ-oppose mt10 ot0"><span class="glyphicon glyphicon-chevron-down"></span></button>#}
+{#                                </div>#}
+                                <div style="margin-left: 65px">
+                                    <div style="min-height: 75px">
+                                        {{ comment['comment'][0] | safe}}
+                                    </div>
+                                    <div>
+                                        {{ comment['user'][1] }}&nbsp&nbsp&nbsp{{ comment['comment'][1] }}&nbsp&nbsp&nbsp评论
+                                    </div>
+                                </div>
+                            </article>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div id="layout">
+                    <div id="test-editormd">
+                        <textarea style="display:none;"></textarea>
+                    </div>
+                    <div style="float: right">
+                        <button class="btn btn-default ot0" onclick="answerQuestion()">回答</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-3" style="border: 1px solid red;height: 800px">
+                <div style="position: fixed;float: left;bottom: 10px">
+                    <a href="#wrap-top">
+                        <button class="btn btn-default"><span class="glyphicon glyphicon-arrow-up"></span></button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block script %}
+
+<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="../static/JS/handle.js"></script>
+<script src="../static/lib/editor.md/editormd.min.js"></script>
+<script type="text/javascript">
+    var testEditor;
+
+
+    $(function() {
+        testEditor = editormd("test-editormd", {
+            width   : "100%",
+            height  : 300,
+            syncScrolling : "single",
+            path    : "../static/lib/editor.md/lib/",
+            toolbarIcons : function() {
+                return ["undo", "redo", "|", "bold", "italic", "|", "image", "|", "code-block", "|", "clear", "watch",  "preview", "testIcon"]
+            },
+            imageUpload    : true,
+            imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+            imageUploadURL : host + '/upload/image',
+            styleActiveLine: false,
+            lineNumbers:false
+        });
+        $('body').scrollTop(0);
+    });
+
+
+    function answerQuestion() {
+        content = testEditor.getPreviewedHTML()
+        if (content == ''){
+            alert('内容不能为空.');
+            return;
+        }
+
+        request = {
+            'aid'     : window.location.pathname.split('/')[2],
+            'content' : testEditor.getMarkdown()
+        };
+        $.ajax({
+            type:'POST',
+            url: host + '/comment/article',
+            data : JSON.stringify(request),
+            dataType : 'json',
+            async: false,
+            success : function (data) {
+                if (data.status == 'ok') {
+                    alert('回答成功');
+                    cid = data.data['cid'];
+                    var html = '<li><article class="widget-answers__item" style="min-height: 125px">' +
+                            '<div style="position: absolute;text-align: center;line-height: 15px;width: 40px">' +
+                                '<button type="button" data-id=' + cid + ' class="btn btn-default" style="margin-bottom: 10px"><span class="glyphicon glyphicon-chevron-up"></span></button>' +
+                                '<span style="font-size: 18px">0</span>' +
+                                '<button type="button" data-id=' + cid + ' class="btn btn-default" style="margin-top: 10px"><span class="glyphicon glyphicon-chevron-down"></span></button>' +
+                            '</div>' +
+                            '<div style="margin-left: 65px">' +
+                                '<div style="min-height:70px;">' +
+                                    content +
+                                '</div>' +
+                                '<div>' +
+                                    '<div>王伟豪 2017.11.11 5时评论</div>' +
+                                '</div>' +
+                            '</div>' +
+                        '</article></li>';
+                    $('.comment-list').append(html);
+                    testEditor.cleanData();
+                }else if(data.status == 'error'){
+                    alert('请先登录');
+                }
+            },
+            error   : function () {
+                alert('系统繁忙，请稍后再试');
+            }
+        });
+        $('#comment-num').html(parseInt($('#comment-num').html())+1);
+    }
+
+    $(function(){
+        $(window).scroll(function(){
+            //获取高度
+            height = $(window).scrollTop();
+            //如果小于 200 px 则隐藏
+            if(height < 200){
+                $('.nav-classification').fadeIn();
+            }else{
+                $('.nav-classification').fadeOut();
+            }
+        });
+    });
+</script>
+
+{% endblock %}
