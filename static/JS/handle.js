@@ -9,6 +9,7 @@ DB_ERR_DUP_NAM = 2;
 DB_ERR_HAND = 3;
 JSON_ERR_ANALY = 4;
 
+count = 0;
 
 function loginCallback() {
     $('#email_tag').addClass('hidden');
@@ -206,6 +207,100 @@ function getCookie(name)
         return null;
 }
 
+function editSelfInfo() {
+    if(count == 0) {
+        $('.change').removeClass('hidden');
+        $('#change-head').removeClass('hidden');
+        $('#btn-self-info').text('完成资料修改');
+        count = 1;
+    }else if(count == 1) {
+        $('.change').addClass('hidden');
+        $('#change-head').addClass('hidden');
+        $('#btn-self-info').text('编辑个人资料');
+        count = 0;
+    }
+}
+
+function changeSelfIntro() {
+    $('#self-intro').removeClass('hidden');
+}
+
+function cancelChangeSelfIntro() {
+    $('#self-intro').addClass('hidden');
+}
+
+function changeSex() {
+    $('#sex').removeClass('hidden');
+}
+
+function cancelChangeSex() {
+    $('#sex').addClass('hidden');
+}
+
+function changeSchool() {
+    $('#school').removeClass('hidden');
+}
+
+function cancelChangeSchool() {
+    $('#school').addClass('hidden');
+}
+
+function changeSpecialty() {
+    $('#specialty').removeClass('hidden');
+}
+
+function cancelChangeSpecialty() {
+    $('#specialty').addClass('hidden');
+}
+
+function changeAddress() {
+    $('#address').removeClass('hidden');
+}
+
+function cancelChangeAddress() {
+    $('#address').addClass('hidden');
+}
+
+function changeQQ(){
+    $('#qq').removeClass('hidden');
+}
+
+function cancelChangeQQ() {
+    $('#qq').addClass('hidden');
+}
+
+function changeWechat(){
+    $('#wechat').removeClass('hidden');
+}
+
+function cancelChangeWechat() {
+    $('#wechat').addClass('hidden');
+}
+
+function changeEmail() {
+    $('#email').removeClass('hidden');
+}
+
+function cancelChangeEmail() {
+    $('#email').addClass('hidden');
+}
+
+function changeSelfInfo() {
+    $('#self-info').removeClass('hidden');
+}
+
+function cancelChangeSelfInfo() {
+    $('#self-info').addClass('hidden');
+}
+
+function changeHead() {
+    $('#change-head').click();
+}
+
+// function uploadHead() {
+//     alert('点击更换');
+//     $('#upload-head').click();
+// }
 
 $('#btn-agree').click(function(event) {
     event.preventDefault();
@@ -243,3 +338,40 @@ $('.btn-answ-oppose').click(function(event) {
     data = $(this).attr('data-id');
     alert(data)
 });
+
+$('form').submit(function (event) {
+      event.preventDefault();
+      var form = $(this);
+
+      if (!form.hasClass('fupload')) {
+        //普通表单
+        $.ajax({
+          type: "POST",
+          url: form.attr('action'),
+          data: form.serialize()
+        }).success(function () {
+          //成功提交
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+          //错误信息
+        });
+      }
+      else {
+          //mulitipart form,如文件上传类
+          var formData = new FormData(this);
+          $.ajax({
+              type: "POST",
+              url: form.attr('action'),
+              data: formData,
+              dataType: "json",
+              mimeType: "multipart/form-data",
+              contentType: false,
+              cache: false,
+              processData: false
+          }).success(function (data) {
+              //成功提交
+              $("#myHead").attr('src',data['url']);
+          }).fail(function (jqXHR, textStatus, errorThrown) {
+              //错误信息
+          });
+      };
+    });

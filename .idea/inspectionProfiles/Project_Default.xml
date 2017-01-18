@@ -1,0 +1,52 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="app.handle.register.*" />
+          <option value="AA" />
+          <option value="model" />
+          <option value="register" />
+          <option value="argument" />
+          <option value="XiyouForum.JSON_ERR_ANALY" />
+          <option value="XiyouForum.login" />
+          <option value="app.handle.login.DB_ERR_NO_EML" />
+          <option value="app.handle.login.DB_ERR_NO_PWD" />
+          <option value="app.handle.login.SUCCESS" />
+          <option value="login" />
+          <option value="app.handle.login.db" />
+          <option value="app.handle.login.User" />
+          <option value="server.JSON_ERR_ANALY" />
+          <option value="loadHome" />
+          <option value="app.handle.writeArticle.SUCCESS" />
+          <option value="writeArticle" />
+          <option value="app.handle.writeArticle.DB_ERR_HAND" />
+          <option value="loadQuestion" />
+          <option value="server.qid" />
+          <option value="app.handle.loadQuestion.DB_ERR_HAND" />
+          <option value="app.handle.loadQuestion.SUCCESS" />
+          <option value="writeQuestion" />
+          <option value="app.handle.writeQuestion.DB_ERR_HAND" />
+          <option value="app.handle.writeQuestion.SUCCESS" />
+          <option value="server.gevent" />
+          <option value="app.handle.writeAnswer.DB_ERR_HAND" />
+          <option value="app.handle.writeAnswer.SUCCESS" />
+          <option value="writeAnswer" />
+          <option value="server.USER_NOT_LOGIN" />
+          <option value="handle.JSON_ERR_ANALY" />
+          <option value="voteQuestion" />
+          <option value="loadArticles" />
+          <option value="app.handle.loadArticle.DB_ERR_HAND" />
+          <option value="app.handle.loadArticle.SUCCESS" />
+          <option value="loadArticle" />
+          <option value="writeComment" />
+          <option value="app.handle.writeComment.DB_ERR_HAND" />
+          <option value="app.handle.writeComment.SUCCESS" />
+          <option value="app.handle.updateUserInfo.DB_ERR_HAND" />
+          <option value="app.handle.updateUserInfo.SUCCESS" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>

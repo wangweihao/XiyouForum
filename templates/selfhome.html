@@ -1,40 +1,302 @@
 {% extends "layout.html" %}
 
 {% block body %}
-    <div class="wrap">
-        <header style="height: 240px;background-color: #f6f6f6">
-            <div class="container">
-                <div class="row"  style="margin-top: 20px">
-                    <div class="col-md-2">
-                        <div>
-                            <img src="http://img.xiyouforum.cn/head_img/default.png" alt="出错">
-                        </div>
-{#                        <form id="form1" method="post" action="/upload/head" enctype="multipart/form-data">#}
-{#                            <div>#}
-{#                                <input id="File1" type="file" name="myfile"/>#}
-{#                                <div>#}
-{#                                    <input type="submit" class="btn btn-default"/>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                        </form>#}
+<div class="wrap clearfloat" style=";background-color: #f7f8fa">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+        <div style="height:200px;margin-top: 15px;">
+{#            <img src="../static/upload_image/back.jpg" alt="back-img" style="width:100%;height:100%;">#}
+            <img src="../static/upload_image/back.jpg" class="img-responsive" alt="Responsive image">
+        </div>
+        <figure style="height: 160px;width: 160px;b;position: absolute;left: 40px;top: 135px;">
+            <img id="myHead" class="img-thumbnail" style="height: 160px;width: 160px;border-radius: 5%" src="https://pic3.zhimg.com/005602c75d3102a6f172a243855abc5a_xll.jpg" alt="head">
+            <div class="change hidden" onclick="changeHead()" style="height: 160px;width: 160px;background: #000;opacity: .3;position: absolute;top: 0px;border-radius: 5%;cursor: hand">
+                <div style="top: 50%;margin-top: 50px">
+                    <div style="text-align: center">
+                        <span class="glyphicon glyphicon-camera" style="font-size: 40px;color: #fff;"></span>
                     </div>
-                    <div class="col-md-5">
+                    <p style="color: #fff;text-align: center">修改我的头像</p>
+                    <form action="/upload/head" method="POST" enctype="multipart/form-data" class="fupload">
+                        <input type="file" class="hidden" name="File1" id="change-head" onchange="javascript:setImagePreview();" style="height: 160px;width: 160px;background-color: black;top: 0;position: absolute;opacity: 0">
                         <div>
-                            <h3>花名小虎</h3>
-                            <a style="width: 20px;">
-                                <span>100</span>
-                                <span class="glyphicon glyphicon-heart"></span>
-                            </a>
+                            <input type="submit" class="hidden" value="upload" id="upload-head"/>
                         </div>
+                    </form>
+                </div>
+            </div>
+        </figure>
+
+        <!-- Button trigger modal -->
+        <button type="button" class="hidden" data-toggle="modal" data-target="#myModal" id="test1">
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">头像 预览</h4>
+              </div>
+              <div class="modal-body">
+                <div id="localImag">
+                    <img id="preview" width="150" height="180" style="display: block; width: 160px; height: 160px;margin: 0 auto">
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="cancelChangeHead" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="chang-head-btn">更换</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div style="height:100%;border: 1px solid lightgrey;padding-left: 200px;background-color: #fff">
+            <div style="left: 200px;max-width: 700px;" class="row">
+                <div class="col-md-8" style="margin-bottom: 10px;padding-top: 10px">
+                    <span style="font-size: 30px">王伟豪</span>
+                    <div style="margin-bottom: 18px">
+                        <span style="font-size: 14px;">个人简介：得之坦然，失之淡然，顺其自然，争其必然</span>
                     </div>
-                    <div class="col-md-5">
-                        <h3>个人简介</h3>
+                </div>
+                <div class="col-md-4" style="padding-top: 48px">
+{#                    <button type="button" class="btn btn-default" style="border: 1px solid #0f88eb;color: #0f88eb;float: right">编辑个人资料</button>#}
+                    <a id="btn-self-info" role="button" class="btn btn-default" style="border: 1px solid #0f88eb;color: #0f88eb;float: right" onclick="editSelfInfo()">编辑个人资料</a>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 20px">
+            <div style="width: 70%;float: left;padding-right: 15px">
+                <div style="background-color: #fff;border: 1px solid lightgray;">
+                    <div style="border-bottom: 1px solid #ebeef5;padding: 20px 0 10px 25px">
+                        <span style="font-size: 15px;font-weight: 700;width: 150px;display: inline-block;font-weight: 500">个人信息</span>
+                    </div>
+                    <div style="margin-right: 15px;padding: 30px">
+                        <div class="row" style="margin-bottom: 30px;border-bottom: 1px solid #ebeef5;padding-bottom: 25px">
+                            <div class="col-md-3"><span style="font-size: 15px;font-weight: 700;font-weight: 500">一句话介绍</span></div>
+                            <div class="col-md-9">
+                                <div>
+                                    <span style="font-size: 15px">得之坦然，失之淡然，顺其自然，争其必然得之坦然，失之淡然，顺其自然，争其必然得之坦然，失之淡然，顺其自然，争其必然</span>&nbsp&nbsp
+                                    <a onclick="changeSelfIntro()" class="change hidden"><span class="glyphicon glyphicon-pencil"></span>&nbsp修改</a>
+                                </div>
+                                <div id="self-intro" class="hidden" style="margin-top: 10px">
+                                    <input class="form-control input-sm" type="text" placeholder="一句话介绍自己">
+                                    <div style="margin-top: 10px">
+                                        <a role="button" class="btn btn-primary btn-sm" onclick="deterChangeSelfIntro()">确定</a>
+                                        <a role="button" class="btn btn-default btn-sm" onclick="cancelChangeSelfIntro()">取消</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom: 30px;border-bottom: 1px solid #ebeef5;padding-bottom: 25px">
+                            <div class="col-md-3"><span style="font-size: 15px;font-weight: 700;font-weight: 500">性别</span></div>
+                            <div class="col-md-9">
+                                <div>
+                                    <span style="font-size: 15px">男</span>&nbsp&nbsp
+                                    <a onclick="changeSex()" class="change hidden"><span class="glyphicon glyphicon-pencil"></span>&nbsp修改</a>
+                                </div>
+                                <div id="sex" class="hidden" style="margin-top: 10px">
+                                    <label class="radio-inline">
+                                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> 男
+                                    </label>
+                                    <label class="radio-inline">
+                                        <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> 女
+                                    </label>
+                                    <div style="margin-top: 10px">
+                                        <a role="button" class="btn btn-primary btn-sm" onclick="deterChangeSex()">确定</a>
+                                        <a role="button" class="btn btn-default btn-sm" onclick="cancelChangeSex()">取消</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom: 30px;border-bottom: 1px solid #ebeef5;padding-bottom: 25px">
+                            <div class="col-md-3"><span style="font-size: 15px;font-weight: 700;font-weight: 500">院校</span></div>
+                            <div class="col-md-9">
+                                <div>
+                                    <span style="font-size: 15px">西安邮电大学</span>&nbsp&nbsp
+                                    <a onclick="changeSchool()" class="change hidden"><span class="glyphicon glyphicon-pencil"></span>&nbsp修改</a>
+                                </div>
+                                <div id="school" class="hidden" style="margin-top: 10px">
+                                    <input class="form-control input-sm" type="text" placeholder="院校">
+                                    <div style="margin-top: 10px">
+                                        <a role="button" class="btn btn-primary btn-sm" onclick="deterChangeSchool()">确定</a>
+                                        <a role="button" class="btn btn-default btn-sm" onclick="cancelChangeSchool()">取消</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom: 30px;border-bottom: 1px solid #ebeef5;padding-bottom: 25px">
+                            <div class="col-md-3"><span style="font-size: 15px;font-weight: 700;font-weight: 500">专业</span></div>
+                            <div class="col-md-9">
+                                <div>
+                                    <span style="font-size: 15px">通信与信息工程</span>&nbsp&nbsp
+                                    <a onclick="changeSpecialty()" class="change hidden"><span class="glyphicon glyphicon-pencil"></span>&nbsp修改</a>
+                                </div>
+                                <div id="specialty" class="hidden" style="margin-top: 10px">
+                                    <input class="form-control input-sm" type="text" placeholder="专业">
+                                    <div style="margin-top: 10px">
+                                        <a role="button" class="btn btn-primary btn-sm" onclick="deterChangeSpecialty()">确定</a>
+                                        <a role="button" class="btn btn-default btn-sm" onclick="cancelChangeSpecialty()">取消</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom: 30px;border-bottom: 1px solid #ebeef5;padding-bottom: 25px">
+                            <div class="col-md-3"><span style="font-size: 15px;font-weight: 700;font-weight: 500">居住地</span></div>
+                            <div class="col-md-9">
+                                <div>
+                                    <span style="font-size: 15px">陕西西安</span>&nbsp&nbsp
+                                    <a onclick="changeAddress()" class="change hidden"><span class="glyphicon glyphicon-pencil"></span>&nbsp修改</a>
+                                </div>
+                                <div id="address" class="hidden" style="margin-top: 10px">
+                                    <input class="form-control input-sm" type="text" placeholder="居住地">
+                                    <div style="margin-top: 10px">
+                                        <a role="button" class="btn btn-primary btn-sm" onclick="deterChangeAddress()">确定</a>
+                                        <a role="button" class="btn btn-default btn-sm" onclick="cancelChangeAddress()">取消</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom: 30px;border-bottom: 1px solid #ebeef5;padding-bottom: 25px">
+                            <div class="col-md-3"><span style="font-size: 15px;font-weight: 700;font-weight: 500">QQ</span></div>
+                            <div class="col-md-9">
+                                <div>
+                                    <span style="font-size: 15px">578867817</span>&nbsp&nbsp
+                                    <a onclick="changeQQ()" class="change hidden"><span class="glyphicon glyphicon-pencil"></span>&nbsp修改</a>
+                                </div>
+                                <div id="qq" class="hidden" style="margin-top: 10px">
+                                    <input class="form-control input-sm" type="text" placeholder="QQ">
+                                    <div style="margin-top: 10px">
+                                        <a role="button" class="btn btn-primary btn-sm" onclick="deterChangeQQ()">确定</a>
+                                        <a role="button" class="btn btn-default btn-sm" onclick="cancelChangeQQ()">取消</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom: 30px;border-bottom: 1px solid #ebeef5;padding-bottom: 25px">
+                            <div class="col-md-3"><span style="font-size: 15px;font-weight: 700;font-weight: 500">微信</span></div>
+                            <div class="col-md-9">
+                                <div>
+                                    <span style="font-size: 15px">wwh578867817</span>&nbsp&nbsp
+                                    <a onclick="changeWechat()" class="change hidden"><span class="glyphicon glyphicon-pencil"></span>&nbsp修改</a>
+                                </div>
+                                <div id="wechat" class="hidden" style="margin-top: 10px">
+                                    <input class="form-control input-sm" type="text" placeholder="微信">
+                                    <div style="margin-top: 10px">
+                                        <a role="button" class="btn btn-primary btn-sm" onclick="deterChangeWechat()">确定</a>
+                                        <a role="button" class="btn btn-default btn-sm" onclick="cancelChangeWechat()">取消</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom: 30px;border-bottom: 1px solid #ebeef5;padding-bottom: 25px">
+                            <div class="col-md-3"><span style="font-size: 15px;font-weight: 700;font-weight: 500">邮箱</span></div>
+                            <div class="col-md-9">
+                                <div>
+                                    <span style="font-size: 15px">夏了夏天</span>&nbsp&nbsp
+                                    <a onclick="changeEmail()" class="change hidden"><span class="glyphicon glyphicon-pencil"></span>&nbsp修改</a>
+                                </div>
+                                <div id="email" class="hidden" style="margin-top: 10px">
+                                    <input class="form-control input-sm" type="text" placeholder="邮箱">
+                                    <div style="margin-top: 10px">
+                                        <a role="button" class="btn btn-primary btn-sm" onclick="deterChangeEmail()">确定</a>
+                                        <a role="button" class="btn btn-default btn-sm" onclick="cancelChangeEmail()">取消</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-bottom: 30px;border-bottom: 1px solid #ebeef5;padding-bottom: 25px">
+                            <div class="col-md-3"><span style="font-size: 15px;font-weight: 700;font-weight: 500">个人简介</span></div>
+                            <div class="col-md-9">
+                                <div>
+                                    <span style="font-size: 15px">take is cheap...whatever</span>&nbsp&nbsp
+                                    <a onclick="changeSelfInfo()" class="change hidden"><span class="glyphicon glyphicon-pencil"></span>&nbsp修改</a>
+                                </div>
+                                <div id="self-info" class="hidden" style="margin-top: 10px">
+                                    <input class="form-control input-sm" type="text" placeholder="个人简介">
+                                    <div style="margin-top: 10px">
+                                        <a role="button" class="btn btn-primary btn-sm" onclick="deterChangeSelfInfo()">确定</a>
+                                        <a role="button" class="btn btn-default btn-sm" onclick="cancelChangeSelfInfo()">取消</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </header>
-        <div>
-
+            <div style="width: 30%;background-color: #fff;height: 200px;float: left;border: 1px solid lightgray">
+                <div style="border-bottom: 1px solid #ebeef5;padding: 20px 0 10px 25px">
+                    <span style="font-size: 15px;font-weight: 700;width: 150px;display: inline-block;font-weight: 500">个人成就</span>
+                </div>
+                <div>
+                    <div>关注了<span>100</span>人</div>
+                    <div>被关注<span>200</span>人</div>
+                </div>
+                <div>
+                    获得赞同<span>1000</span>次
+                </div>
+            </div>
         </div>
     </div>
+    <div class="col-md-2">
+
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+
+<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="../static/JS/handle.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#change-head").change(function(){
+        $('#test1').click();
+    });
+    $('#chang-head-btn').click(function () {
+        $('#cancelChangeHead').click();
+        $('#upload-head').submit();
+    })
+});
+
+//下面用于图片上传预览功能
+function setImagePreview(avalue) {
+    var docObj=document.getElementById("change-head");
+    var imgObjPreview=document.getElementById("preview");
+    if(docObj.files &&docObj.files[0])
+    {
+        //火狐下，直接设img属性
+        imgObjPreview.style.display = 'block';
+        imgObjPreview.style.width = '160px';
+        imgObjPreview.style.height = '160px';
+        //imgObjPreview.src = docObj.files[0].getAsDataURL();
+
+        //火狐7以上版本不能用上面的getAsDataURL()方式获取，需要一下方式
+        imgObjPreview.src = window.URL.createObjectURL(docObj.files[0]);
+    } else {
+        //IE下，使用滤镜
+        docObj.select();
+        var imgSrc = document.selection.createRange().text;
+        var localImagId = document.getElementById("localImag");
+        //必须设置初始大小
+        localImagId.style.width = "150px";
+        localImagId.style.height = "180px";
+        //图片异常的捕捉，防止用户修改后缀来伪造图片
+        try{
+            localImagId.style.filter="progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+            localImagId.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = imgSrc;
+        }catch(e) {
+            alert("您上传的图片格式不正确，请重新选择!");
+            return false;
+        }
+        imgObjPreview.style.display = 'none';
+        document.selection.empty();
+    }
+    return true;
+}
+</script>
+
 {% endblock %}

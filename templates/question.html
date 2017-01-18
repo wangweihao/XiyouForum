@@ -28,13 +28,13 @@
                 <div class="col-md-3 col-sm-4 col-xs-12" style="margin-top: 12px">
                     <ul>
                         <li>
-                            <button type="button" class="btn btn-default mr15 ot0">关注</button>
+                            <a role="button" class="btn btn-default mr15 ot0">关注</a>
                             <strong>20</strong>&nbsp关注
                         </li>
                     </ul>
                     <ul>
                         <li>
-                            <button type="button" class="btn btn-default mr15 ot0">收藏</button>
+                            <a role="button" class="btn btn-default mr15 ot0">收藏</a>
                             <strong>20</strong>&nbsp收藏&nbsp&nbsp&nbsp
                             <strong>{{ scan_time }}</strong>&nbsp浏览
                         </li>
@@ -48,13 +48,13 @@
             <div class="col-xs-12 col-md-9">
                 <article style="min-height: 100px">
                     <div style="position: absolute;text-align: center;line-height: 15px;width: 40px">
-                        <button id="btn-agree" data-id={{ qid }} type="button" class="btn btn-default mb10 ot0"><span class="glyphicon glyphicon-chevron-up"></span></button>
+                        <a id="btn-agree" data-id={{ qid }} role="button" class="btn btn-default mb10 ot0"><span class="glyphicon glyphicon-chevron-up"></span></a>
                         {% if agree_time >= 1000 %}
                             <span style="font-size: 18px">{{ agree_time//1000 + agree_time%1000//100/10}}k</span>
                         {% else %}
                             <span style="font-size: 18px">{{ agree_time }}</span>
                         {% endif %}
-                        <button id="btn-oppose" data-id={{ qid }} type="button" class="btn btn-default mt10 ot0"><span class="glyphicon glyphicon-chevron-down"></span></button>
+                        <a id="btn-oppose" data-id={{ qid }} role="button" class="btn btn-default mt10 ot0"><span class="glyphicon glyphicon-chevron-down"></span></a>
                     </div>
                     <div style="margin-left: 65px">
                         {{ content | safe }}

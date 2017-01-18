@@ -274,15 +274,54 @@ def self_home():
     return render_template('selfhome.html', user=sessionInfo)
 
 @server.route('/upload/head', methods=['POST'])
-def upload():
+def upload_head():
+    info = ''
+    ret_data = {}
+    req  = {}
+
+    if request.cookies.has_key('session_id'):
+        session_id = request.cookies['session_id']
+    else:
+        info = 'user not login'
+        return check_result(False, USER_NOT_LOGIN, info, ret_data)
+
+    sessionInfo = getSessionInfo(red, session_id, ['uid'])
+
+    if not session_id:
+        info = 'user not login'
+        return check_result(False, USER_NOT_LOGIN, info, ret_data)
+
+    req['uid'] = sessionInfo['uid']
+
     print 'upload'
     if request.method == 'POST':
-        file = request.files['myfile']
+        try:
+            file = request.files['File1']
+        except Exception as e:
+            print e
+            print e.message
+
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(server.config['UPLOAD_HEAD_FOLDER'], filename))
 
-        return redirect('selfhome')
+        ret = {
+                "success":1,
+                "message":"success",
+                "url":"http://" + HOST + ":" + str(PORT) + "/static/upload_head/" + filename
+        }
+
+        import updateUserInfo
+        result, mtype, info, ret_data = updateUserInfo.updateUserInfo(req, 'head_url', ret['url'])
+        print result
+        print info
+        print ret_data
+        ret = json.dumps(ret)
+        print ret
+        response = make_response(ret)
+        response.headers['Access-Control-Allow-Origin'] = '*'
+
+        return response
 
 @server.route('/upload/image', methods=['POST'])
 def upload_image():
@@ -293,14 +332,14 @@ def upload_image():
             filename = secure_filename(file.filename)
             file.save(os.path.join(server.config['UPLOAD_FOLDER'], filename))
 
-        s = {
+        ret = {
                 "success":1,
                 "message":"success",
                 "url":"http://" + HOST + ":" + str(PORT) + "/static/upload_image/" + filename
         }
-        s = json.dumps(s)
-        print s
-        response = make_response(s)
+        ret = json.dumps(ret)
+        print ret
+        response = make_response(ret)
         response.headers['Access-Control-Allow-Origin'] = '*'
 
         return response
