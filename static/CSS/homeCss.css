@@ -97,6 +97,18 @@ ol {
     margin-top: 10px;
 }
 
+.mt15{
+    margin-top: 15px;
+}
+
+.mt50{
+    margin-top: 50px;
+}
+
+.pt10{
+    padding-top: 10px;
+}
+
 .pl20{
     padding-left: 20px !important;
 }
@@ -422,3 +434,27 @@ ol {
 
 .clearfloat:after{display:block;clear:both;content:"";visibility:hidden;height:0}
 .clearfloat{zoom:1}
+
+.hd{
+    height: 160px;
+    width: 160px;
+    position: absolute;
+    left: 40px;
+    top: 135px;
+}
+
+#myHead{
+    height: 160px;width: 160px;border-radius: 5%;
+}
+
+.div-change{
+    height: 160px;width: 160px;background: #000;opacity: .3;position: absolute;top: 0px;border-radius: 5%;cursor: hand
+}
+
+.Field{
+    margin-bottom: 30px;border-bottom: 1px solid #ebeef5;padding-bottom: 25px
+}
+
+.Field-sp{
+    font-size: 15px;font-weight: 700;font-weight: 500
+}

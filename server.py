@@ -84,8 +84,6 @@ def hello_world():
     if cookie.has_key('session_id'):
         sessionInfo = getSessionInfo(red, cookie['session_id'], ['nickname', 'head_url', 'reputation'])
 
-    print sessionInfo
-
     return render_template('home.html', questions=ques, type='questions', user=sessionInfo, url='/', hot_articles=hot_articles)
 
 
@@ -265,13 +263,64 @@ def answer_question():
 
 @server.route('/selfhome', methods=['GET'])
 def self_home():
-    args = request.args
-    cookie = request.cookies
+    req_data   = request.get_data()
+    info = ''
+    req  = {}
+    ret_data = {}
 
-    if cookie.has_key('session_id'):
-        sessionInfo = getSessionInfo(red, cookie['session_id'], ['nickname', 'head_url', 'reputation'])
+    if request.cookies.has_key('session_id'):
+        session_id = request.cookies['session_id']
+    else:
+        info = 'user not login'
+        return check_result(False, USER_NOT_LOGIN, info, ret_data)
 
-    return render_template('selfhome.html', user=sessionInfo)
+    sessionInfo = getSessionInfo(red, session_id, ['uid', 'nickname', 'head_url'])
+
+    if not session_id:
+        info = 'user not login'
+        return check_result(False, USER_NOT_LOGIN, info, ret_data)
+
+    req['uid'] = sessionInfo['uid']
+
+    import loadSelfHome
+    result, mtype, info, ret_data = loadSelfHome.loadSelfHome(req)
+    check_result(result, mtype, info, ret_data)
+
+    return render_template('selfhome.html', user=sessionInfo, userinfo=ret_data)
+
+
+@server.route('/update/userinfo', methods=['POST'])
+def update_userinfo():
+    req_data = request.get_data()
+    info     = ''
+    ret_data = {}
+
+    if request.cookies.has_key('session_id'):
+        session_id = request.cookies['session_id']
+    else:
+        info = 'user not login'
+        return check_result(False, USER_NOT_LOGIN, info, ret_data)
+
+    sessionInfo = getSessionInfo(red, session_id, ['uid'])
+
+    if not session_id:
+        info = 'user not login'
+        return check_result(False, USER_NOT_LOGIN, info, ret_data)
+
+    try:
+        req = json.loads(req_data)
+    except ValueError as e:
+        info = 'register failed:json analyse failure'
+        logger.error(info)
+        return check_result(False, JSON_ERR_ANALY, info, ret_data)
+
+    req['uid'] = sessionInfo['uid']
+
+    import updateUserInfo
+    result, mtype, info, ret_data = updateUserInfo.updateUserInfo(req, req['userinfo'], req['content'])
+
+    return check_result(result, mtype, info, ret_data)
+
 
 @server.route('/upload/head', methods=['POST'])
 def upload_head():
@@ -313,11 +362,10 @@ def upload_head():
 
         import updateUserInfo
         result, mtype, info, ret_data = updateUserInfo.updateUserInfo(req, 'head_url', ret['url'])
-        print result
-        print info
-        print ret_data
+
+        red.hset(session_id, 'head_url', ret['url'])
+
         ret = json.dumps(ret)
-        print ret
         response = make_response(ret)
         response.headers['Access-Control-Allow-Origin'] = '*'
 

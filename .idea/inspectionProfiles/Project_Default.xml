@@ -45,6 +45,10 @@
           <option value="app.handle.writeComment.SUCCESS" />
           <option value="app.handle.updateUserInfo.DB_ERR_HAND" />
           <option value="app.handle.updateUserInfo.SUCCESS" />
+          <option value="updateUserInfo" />
+          <option value="loadSelfHome" />
+          <option value="app.handle.loadSelfHome.DB_ERR_HAND" />
+          <option value="app.handle.loadSelfHome.SUCCESS" />
         </list>
       </option>
     </inspection_tool>

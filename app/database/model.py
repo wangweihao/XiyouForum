@@ -124,7 +124,7 @@ class Article_Category_Rela(db.Model):
     id  = db.Column(db.Integer, primary_key=True)
     aid = db.Column(db.Integer, nullable=False, index=True)
     cid = db.Column(db.Integer, nullable=False, index=True)
-#
+
 # db.drop_all()
 # db.create_all()
 #

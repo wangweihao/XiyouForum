@@ -225,12 +225,72 @@ function changeSelfIntro() {
     $('#self-intro').removeClass('hidden');
 }
 
+function deterChangeSelfIntro() {
+    var info = $("#self-intro input[type='text']").val();
+
+    request = {
+        userinfo : 'aWordIntro',
+        content  : info
+    };
+
+    $.ajax({
+        type : 'POST',
+        url  : host + '/update/userinfo',
+        data :  JSON.stringify(request),
+        dataType:'json',
+        async:  true,
+        success : function (data) {
+            if(data.status == 'ok') {
+                alert('修改成功...');
+                $('#self-intro').addClass('hidden');
+                $('#sp-self-intro').html(info);
+            }else if(data.status == 'error'){
+                alert('修改失败:'+data.info);
+            }
+
+        },
+        error:function () {
+            alert("系统繁忙，请稍后再试");
+        }
+    });
+}
+
 function cancelChangeSelfIntro() {
     $('#self-intro').addClass('hidden');
 }
 
 function changeSex() {
     $('#sex').removeClass('hidden');
+}
+
+function deterChangeSex() {
+    var info = $("#sex input:radio:checked").val();
+
+    request = {
+        userinfo : 'sex',
+        content  :  info
+    };
+
+    $.ajax({
+        type : 'POST',
+        url  : host + '/update/userinfo',
+        data :  JSON.stringify(request),
+        dataType:'json',
+        async:  true,
+        success : function (data) {
+            if(data.status == 'ok') {
+                alert('修改成功...');
+                $('#sex').addClass('hidden');
+                $('#sp-sex').html((info==0?'男':'女'));
+            }else if(data.status == 'error'){
+                alert('修改失败:'+data.info);
+            }
+
+        },
+        error:function () {
+            alert("系统繁忙，请稍后再试");
+        }
+    });
 }
 
 function cancelChangeSex() {
@@ -241,12 +301,72 @@ function changeSchool() {
     $('#school').removeClass('hidden');
 }
 
+function deterChangeSchool() {
+    var info = $("#school input[type='text']").val();
+
+    request = {
+        userinfo : 'school',
+        content  : info
+    };
+
+    $.ajax({
+        type : 'POST',
+        url  : host + '/update/userinfo',
+        data :  JSON.stringify(request),
+        dataType:'json',
+        async:  true,
+        success : function (data) {
+            if(data.status == 'ok') {
+                alert('修改成功...');
+                $('#school').addClass('hidden');
+                $('#sp-school').html(info);
+            }else if(data.status == 'error'){
+                alert('修改失败:'+data.info);
+            }
+
+        },
+        error:function () {
+            alert("系统繁忙，请稍后再试");
+        }
+    });
+}
+
 function cancelChangeSchool() {
     $('#school').addClass('hidden');
 }
 
 function changeSpecialty() {
     $('#specialty').removeClass('hidden');
+}
+
+function deterChangeSpecialty() {
+    var info = $("#specialty input[type='text']").val();
+
+    request = {
+        userinfo : 'specialty',
+        content  : info
+    };
+
+    $.ajax({
+        type : 'POST',
+        url  : host + '/update/userinfo',
+        data :  JSON.stringify(request),
+        dataType:'json',
+        async:  true,
+        success : function (data) {
+            if(data.status == 'ok') {
+                alert('修改成功...');
+                $('#specialty').addClass('hidden');
+                $('#sp-specialty').html(info);
+            }else if(data.status == 'error'){
+                alert('修改失败:'+data.info);
+            }
+
+        },
+        error:function () {
+            alert("系统繁忙，请稍后再试");
+        }
+    });
 }
 
 function cancelChangeSpecialty() {
@@ -257,12 +377,72 @@ function changeAddress() {
     $('#address').removeClass('hidden');
 }
 
+function deterChangeAddress() {
+    var info = $("#address input[type='text']").val();
+
+    request = {
+        userinfo : 'address',
+        content  : info
+    };
+
+    $.ajax({
+        type : 'POST',
+        url  : host + '/update/userinfo',
+        data :  JSON.stringify(request),
+        dataType:'json',
+        async:  true,
+        success : function (data) {
+            if(data.status == 'ok') {
+                alert('修改成功...');
+                $('#address').addClass('hidden');
+                $('#sp-address').html(info);
+            }else if(data.status == 'error'){
+                alert('修改失败:'+data.info);
+            }
+
+        },
+        error:function () {
+            alert("系统繁忙，请稍后再试");
+        }
+    });
+}
+
 function cancelChangeAddress() {
     $('#address').addClass('hidden');
 }
 
 function changeQQ(){
     $('#qq').removeClass('hidden');
+}
+
+function deterChangeQQ() {
+    var info = $("#qq input[type='text']").val();
+
+    request = {
+        userinfo : 'qq',
+        content  : info
+    };
+
+    $.ajax({
+        type : 'POST',
+        url  : host + '/update/userinfo',
+        data :  JSON.stringify(request),
+        dataType:'json',
+        async:  true,
+        success : function (data) {
+            if(data.status == 'ok') {
+                alert('修改成功...');
+                $('#qq').addClass('hidden');
+                $('#sp-qq').html(info);
+            }else if(data.status == 'error'){
+                alert('修改失败:'+data.info);
+            }
+
+        },
+        error:function () {
+            alert("系统繁忙，请稍后再试");
+        }
+    });
 }
 
 function cancelChangeQQ() {
@@ -273,6 +453,36 @@ function changeWechat(){
     $('#wechat').removeClass('hidden');
 }
 
+function deterChangeWechat() {
+    var info = $("#wechat input[type='text']").val();
+
+    request = {
+        userinfo : 'wechat',
+        content  : info
+    };
+
+    $.ajax({
+        type : 'POST',
+        url  : host + '/update/userinfo',
+        data :  JSON.stringify(request),
+        dataType:'json',
+        async:  true,
+        success : function (data) {
+            if(data.status == 'ok') {
+                alert('修改成功...');
+                $('#wechat').addClass('hidden');
+                $('#sp-wechat').html(info);
+            }else if(data.status == 'error'){
+                alert('修改失败:'+data.info);
+            }
+
+        },
+        error:function () {
+            alert("系统繁忙，请稍后再试");
+        }
+    });
+}
+
 function cancelChangeWechat() {
     $('#wechat').addClass('hidden');
 }
@@ -281,12 +491,70 @@ function changeEmail() {
     $('#email').removeClass('hidden');
 }
 
+function deterChangeEmail() {
+    var info = $("#email input[type='text']").val();
+
+    request = {
+        userinfo : 'email',
+        content  : info
+    };
+
+    $.ajax({
+        type : 'POST',
+        url  : host + '/update/userinfo',
+        data :  JSON.stringify(request),
+        dataType:'json',
+        async:  true,
+        success : function (data) {
+            if(data.status == 'ok') {
+                alert('修改成功...');
+                $('#email').addClass('hidden');
+                $('#sp-email').html(info);
+            }else if(data.status == 'error'){
+                alert('修改失败:'+data.info);
+            }
+        },
+        error:function () {
+            alert("系统繁忙，请稍后再试");
+        }
+    });
+}
+
 function cancelChangeEmail() {
     $('#email').addClass('hidden');
 }
 
 function changeSelfInfo() {
     $('#self-info').removeClass('hidden');
+}
+
+function deterChangeSelfInfo() {
+    var info = $("#self-info input[type='text']").val();
+
+    request = {
+        userinfo : 'selfIntro',
+        content  : info
+    };
+
+    $.ajax({
+        type : 'POST',
+        url  : host + '/update/userinfo',
+        data :  JSON.stringify(request),
+        dataType:'json',
+        async:  true,
+        success : function (data) {
+            if(data.status == 'ok') {
+                alert('修改成功...');
+                $('#self-info').addClass('hidden');
+                $('#sp-self-info').html(info);
+            }else if(data.status == 'error'){
+                alert('修改失败:'+data.info);
+            }
+        },
+        error:function () {
+            alert("系统繁忙，请稍后再试");
+        }
+    });
 }
 
 function cancelChangeSelfInfo() {

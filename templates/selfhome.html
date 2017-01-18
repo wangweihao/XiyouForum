@@ -4,12 +4,11 @@
 <div class="wrap clearfloat" style=";background-color: #f7f8fa">
     <div class="col-md-2"></div>
     <div class="col-md-8">
-        <div style="height:200px;margin-top: 15px;">
-{#            <img src="../static/upload_image/back.jpg" alt="back-img" style="width:100%;height:100%;">#}
+        <div style="height:200px;" class="mt15">
             <img src="../static/upload_image/back.jpg" class="img-responsive" alt="Responsive image">
         </div>
-        <figure style="height: 160px;width: 160px;b;position: absolute;left: 40px;top: 135px;">
-            <img id="myHead" class="img-thumbnail" style="height: 160px;width: 160px;border-radius: 5%" src="https://pic3.zhimg.com/005602c75d3102a6f172a243855abc5a_xll.jpg" alt="head">
+        <figure class="hd">
+            <img id="myHead" class="img-thumbnail" src={{ userinfo['head_url'] }} alt="head">
             <div class="change hidden" onclick="changeHead()" style="height: 160px;width: 160px;background: #000;opacity: .3;position: absolute;top: 0px;border-radius: 5%;cursor: hand">
                 <div style="top: 50%;margin-top: 50px">
                     <div style="text-align: center">
@@ -51,18 +50,15 @@
           </div>
         </div>
 
-
-
         <div style="height:100%;border: 1px solid lightgrey;padding-left: 200px;background-color: #fff">
             <div style="left: 200px;max-width: 700px;" class="row">
-                <div class="col-md-8" style="margin-bottom: 10px;padding-top: 10px">
-                    <span style="font-size: 30px">王伟豪</span>
+                <div class="col-md-8 mb10 pt10" style="margin-bottom: 10px;padding-top: 10px">
+                    <span style="font-size: 30px">{{ user['nickname'] }}</span>
                     <div style="margin-bottom: 18px">
-                        <span style="font-size: 14px;">个人简介：得之坦然，失之淡然，顺其自然，争其必然</span>
+                        <span style="font-size: 14px;">个人简介&nbsp&nbsp{{ userinfo['selfIntro'] }}</span>
                     </div>
                 </div>
                 <div class="col-md-4" style="padding-top: 48px">
-{#                    <button type="button" class="btn btn-default" style="border: 1px solid #0f88eb;color: #0f88eb;float: right">编辑个人资料</button>#}
                     <a id="btn-self-info" role="button" class="btn btn-default" style="border: 1px solid #0f88eb;color: #0f88eb;float: right" onclick="editSelfInfo()">编辑个人资料</a>
                 </div>
             </div>
@@ -74,48 +70,52 @@
                         <span style="font-size: 15px;font-weight: 700;width: 150px;display: inline-block;font-weight: 500">个人信息</span>
                     </div>
                     <div style="margin-right: 15px;padding: 30px">
-                        <div class="row" style="margin-bottom: 30px;border-bottom: 1px solid #ebeef5;padding-bottom: 25px">
-                            <div class="col-md-3"><span style="font-size: 15px;font-weight: 700;font-weight: 500">一句话介绍</span></div>
+                        <div class="row Field">
+                            <div class="col-md-3"><span class="Field-sp">一句话介绍</span></div>
                             <div class="col-md-9">
                                 <div>
-                                    <span style="font-size: 15px">得之坦然，失之淡然，顺其自然，争其必然得之坦然，失之淡然，顺其自然，争其必然得之坦然，失之淡然，顺其自然，争其必然</span>&nbsp&nbsp
+                                    <span id="sp-self-intro" style="font-size: 15px">{{ userinfo['aWordIntro'] }}</span>&nbsp&nbsp
                                     <a onclick="changeSelfIntro()" class="change hidden"><span class="glyphicon glyphicon-pencil"></span>&nbsp修改</a>
                                 </div>
-                                <div id="self-intro" class="hidden" style="margin-top: 10px">
+                                <div id="self-intro" class="hidden mt10">
                                     <input class="form-control input-sm" type="text" placeholder="一句话介绍自己">
-                                    <div style="margin-top: 10px">
+                                    <div class="mt10">
                                         <a role="button" class="btn btn-primary btn-sm" onclick="deterChangeSelfIntro()">确定</a>
                                         <a role="button" class="btn btn-default btn-sm" onclick="cancelChangeSelfIntro()">取消</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row" style="margin-bottom: 30px;border-bottom: 1px solid #ebeef5;padding-bottom: 25px">
-                            <div class="col-md-3"><span style="font-size: 15px;font-weight: 700;font-weight: 500">性别</span></div>
+                        <div class="row Field">
+                            <div class="col-md-3"><span class="Field-sp">性别</span></div>
                             <div class="col-md-9">
                                 <div>
-                                    <span style="font-size: 15px">男</span>&nbsp&nbsp
+                                    {% if userinfo['sex'] == 0 %}
+                                    <span id="sp-sex" style="font-size: 15px">男</span>&nbsp&nbsp
+                                    {% else %}
+                                    <span id="sp-sex" style="font-size: 15px">男</span>&nbsp&nbsp
+                                    {% endif %}
                                     <a onclick="changeSex()" class="change hidden"><span class="glyphicon glyphicon-pencil"></span>&nbsp修改</a>
                                 </div>
-                                <div id="sex" class="hidden" style="margin-top: 10px">
+                                <div id="sex" class="hidden mt10">
                                     <label class="radio-inline">
-                                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> 男
+                                        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="0"> 男
                                     </label>
                                     <label class="radio-inline">
-                                        <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> 女
+                                        <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="1"> 女
                                     </label>
-                                    <div style="margin-top: 10px">
+                                    <div class="mt10">
                                         <a role="button" class="btn btn-primary btn-sm" onclick="deterChangeSex()">确定</a>
                                         <a role="button" class="btn btn-default btn-sm" onclick="cancelChangeSex()">取消</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row" style="margin-bottom: 30px;border-bottom: 1px solid #ebeef5;padding-bottom: 25px">
-                            <div class="col-md-3"><span style="font-size: 15px;font-weight: 700;font-weight: 500">院校</span></div>
+                        <div class="row Field">
+                            <div class="col-md-3"><span class="Field-sp">院校</span></div>
                             <div class="col-md-9">
                                 <div>
-                                    <span style="font-size: 15px">西安邮电大学</span>&nbsp&nbsp
+                                    <span id="sp-school" style="font-size: 15px">{{ userinfo['school'] }}</span>&nbsp&nbsp
                                     <a onclick="changeSchool()" class="change hidden"><span class="glyphicon glyphicon-pencil"></span>&nbsp修改</a>
                                 </div>
                                 <div id="school" class="hidden" style="margin-top: 10px">
@@ -127,11 +127,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row" style="margin-bottom: 30px;border-bottom: 1px solid #ebeef5;padding-bottom: 25px">
-                            <div class="col-md-3"><span style="font-size: 15px;font-weight: 700;font-weight: 500">专业</span></div>
+                        <div class="row Field">
+                            <div class="col-md-3"><span class="Field-sp">专业</span></div>
                             <div class="col-md-9">
                                 <div>
-                                    <span style="font-size: 15px">通信与信息工程</span>&nbsp&nbsp
+                                    <span id="sp-specialty" style="font-size: 15px">{{ userinfo['specialty'] }}</span>&nbsp&nbsp
                                     <a onclick="changeSpecialty()" class="change hidden"><span class="glyphicon glyphicon-pencil"></span>&nbsp修改</a>
                                 </div>
                                 <div id="specialty" class="hidden" style="margin-top: 10px">
@@ -143,11 +143,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row" style="margin-bottom: 30px;border-bottom: 1px solid #ebeef5;padding-bottom: 25px">
-                            <div class="col-md-3"><span style="font-size: 15px;font-weight: 700;font-weight: 500">居住地</span></div>
+                        <div class="row Field">
+                            <div class="col-md-3"><span class="Field-sp">居住地</span></div>
                             <div class="col-md-9">
                                 <div>
-                                    <span style="font-size: 15px">陕西西安</span>&nbsp&nbsp
+                                    <span id="sp-address" style="font-size: 15px">{{ userinfo['address'] }}</span>&nbsp&nbsp
                                     <a onclick="changeAddress()" class="change hidden"><span class="glyphicon glyphicon-pencil"></span>&nbsp修改</a>
                                 </div>
                                 <div id="address" class="hidden" style="margin-top: 10px">
@@ -159,11 +159,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row" style="margin-bottom: 30px;border-bottom: 1px solid #ebeef5;padding-bottom: 25px">
-                            <div class="col-md-3"><span style="font-size: 15px;font-weight: 700;font-weight: 500">QQ</span></div>
+                        <div class="row Field">
+                            <div class="col-md-3"><span class="Field-sp">QQ</span></div>
                             <div class="col-md-9">
                                 <div>
-                                    <span style="font-size: 15px">578867817</span>&nbsp&nbsp
+                                    <span id="sp-qq" style="font-size: 15px">{{ userinfo['qq'] }}</span>&nbsp&nbsp
                                     <a onclick="changeQQ()" class="change hidden"><span class="glyphicon glyphicon-pencil"></span>&nbsp修改</a>
                                 </div>
                                 <div id="qq" class="hidden" style="margin-top: 10px">
@@ -175,11 +175,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row" style="margin-bottom: 30px;border-bottom: 1px solid #ebeef5;padding-bottom: 25px">
-                            <div class="col-md-3"><span style="font-size: 15px;font-weight: 700;font-weight: 500">微信</span></div>
+                        <div class="row Field">
+                            <div class="col-md-3"><span class="Field-sp">微信</span></div>
                             <div class="col-md-9">
                                 <div>
-                                    <span style="font-size: 15px">wwh578867817</span>&nbsp&nbsp
+                                    <span id="sp-wechat" style="font-size: 15px">{{ userinfo['wechat'] }}</span>&nbsp&nbsp
                                     <a onclick="changeWechat()" class="change hidden"><span class="glyphicon glyphicon-pencil"></span>&nbsp修改</a>
                                 </div>
                                 <div id="wechat" class="hidden" style="margin-top: 10px">
@@ -191,11 +191,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row" style="margin-bottom: 30px;border-bottom: 1px solid #ebeef5;padding-bottom: 25px">
-                            <div class="col-md-3"><span style="font-size: 15px;font-weight: 700;font-weight: 500">邮箱</span></div>
+                        <div class="row Field">
+                            <div class="col-md-3"><span class="Field-sp">邮箱</span></div>
                             <div class="col-md-9">
                                 <div>
-                                    <span style="font-size: 15px">夏了夏天</span>&nbsp&nbsp
+                                    <span id="sp-email" style="font-size: 15px">{{ userinfo['email'] }}</span>&nbsp&nbsp
                                     <a onclick="changeEmail()" class="change hidden"><span class="glyphicon glyphicon-pencil"></span>&nbsp修改</a>
                                 </div>
                                 <div id="email" class="hidden" style="margin-top: 10px">
@@ -207,11 +207,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row" style="margin-bottom: 30px;border-bottom: 1px solid #ebeef5;padding-bottom: 25px">
-                            <div class="col-md-3"><span style="font-size: 15px;font-weight: 700;font-weight: 500">个人简介</span></div>
+                        <div class="row Field">
+                            <div class="col-md-3"><span class="Field-sp">个人简介</span></div>
                             <div class="col-md-9">
                                 <div>
-                                    <span style="font-size: 15px">take is cheap...whatever</span>&nbsp&nbsp
+                                    <span id="sp-self-info" style="font-size: 15px">{{ userinfo['selfIntro'] }}</span>&nbsp&nbsp
                                     <a onclick="changeSelfInfo()" class="change hidden"><span class="glyphicon glyphicon-pencil"></span>&nbsp修改</a>
                                 </div>
                                 <div id="self-info" class="hidden" style="margin-top: 10px">
