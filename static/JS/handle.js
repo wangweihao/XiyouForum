@@ -49,12 +49,12 @@ function loginCallback() {
         success : function (data) {
             if(data.status == 'ok') {
                 alert('登录成功...正在跳转');
-                $("body").removeClass("modal-open");
-                $('#login-out').addClass('hidden');
-                $('#login-in').removeClass('hidden');
-                $('#u-nickname').text(data.data['nickname']);
-                $('#head_url').attr("src", data.data['head_url']);
-
+                // $("body").removeClass("modal-open");
+                // $('#login-out').addClass('hidden');
+                // $('#login-in').removeClass('hidden');
+                // $('#u-nickname').text(data.data['nickname']);
+                // $('#head_url').attr("src", data.data['head_url']);
+                location.reload()
                 // document.cookie = 'id=' + data.data['id'];
                 // document.cookie = 'nickname=' + data.data['nickname'];
             }else if(data.status == 'error'){

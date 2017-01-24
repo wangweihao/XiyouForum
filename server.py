@@ -82,7 +82,7 @@ def hello_world():
     ques, hot_articles = loadHome.load_home(int(page), 1)
 
     if cookie.has_key('session_id'):
-        sessionInfo = getSessionInfo(red, cookie['session_id'], ['nickname', 'head_url', 'reputation'])
+        sessionInfo = getSessionInfo(red, cookie['session_id'], ['nickname', 'head_url', 'reputation', 'authority'])
 
     return render_template('home.html', questions=ques, type='questions', user=sessionInfo, url='/', hot_articles=hot_articles)
 
@@ -148,7 +148,7 @@ def scan_article(aid):
 
     if cookie.has_key('session_id'):
         session_id  = cookie['session_id']
-        sessionInfo = getSessionInfo(red, session_id, ['nickname', 'head_url'])
+        sessionInfo = getSessionInfo(red, session_id, ['nickname', 'head_url', 'authority'])
 
     import loadArticle
     result, mtype, info, ret_data = loadArticle.loadArticle(aid)
@@ -174,7 +174,7 @@ def scan_question(qid):
 
     if cookie.has_key('session_id'):
         session_id  = cookie['session_id']
-        sessionInfo = getSessionInfo(red, session_id, ['nickname', 'head_url'])
+        sessionInfo = getSessionInfo(red, session_id, ['nickname', 'head_url', 'authority'])
 
     import loadQuestion
     result, mtype, info, ret_data = loadQuestion.loadQuestion(qid)
@@ -260,6 +260,17 @@ def answer_question():
 
     return check_result(result, mtype, info, ret_data)
 
+@server.route('/activity', methods=['GET'])
+def activity():
+    cookie = request.cookies
+    sessionInfo = {}
+
+    if cookie.has_key('session_id'):
+        session_id  = cookie['session_id']
+        sessionInfo = getSessionInfo(red, session_id, ['nickname', 'head_url', 'authority'])
+
+
+    return render_template('activity.html', user=sessionInfo)
 
 @server.route('/selfhome', methods=['GET'])
 def self_home():
@@ -274,7 +285,7 @@ def self_home():
         info = 'user not login'
         return check_result(False, USER_NOT_LOGIN, info, ret_data)
 
-    sessionInfo = getSessionInfo(red, session_id, ['uid', 'nickname', 'head_url'])
+    sessionInfo = getSessionInfo(red, session_id, ['uid', 'nickname', 'head_url', 'authority'])
 
     if not session_id:
         info = 'user not login'

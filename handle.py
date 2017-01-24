@@ -83,7 +83,7 @@ def new_questions(request, red):
     ques, hot_articles = loadHome.load_home(int(page), 1)
 
     if cookie.has_key('session_id'):
-        sessionInfo = getSessionInfo(red, cookie['session_id'], ['nickname', 'head_url', 'reputation'])
+        sessionInfo = getSessionInfo(red, cookie['session_id'], ['nickname', 'head_url', 'reputation', 'authority'])
 
     return render_template('home.html', questions=ques, type='questions', user=sessionInfo, url='/questions/newest',
                            hot_articles=hot_articles)
@@ -104,7 +104,7 @@ def hot_questions(request, red):
     ques, hot_articles = loadHome.load_home(int(page), 2)
 
     if cookie.has_key('session_id'):
-        sessionInfo = getSessionInfo(red, cookie['session_id'], ['nickname', 'head_url', 'reputation'])
+        sessionInfo = getSessionInfo(red, cookie['session_id'], ['nickname', 'head_url', 'reputation', 'authority'])
 
     return render_template('home.html', questions=ques, type='questions-hot', user=sessionInfo, url='/questions/hottest',
                            hot_articles=hot_articles)
@@ -125,7 +125,7 @@ def unanswer_questions(request, red):
     ques, hot_articles = loadHome.load_home(int(page), 3)
 
     if cookie.has_key('session_id'):
-        sessionInfo = getSessionInfo(red, cookie['session_id'], ['nickname', 'head_url', 'reputation'])
+        sessionInfo = getSessionInfo(red, cookie['session_id'], ['nickname', 'head_url', 'reputation', 'authority'])
 
     return render_template('home.html', questions=ques, type='questions-unans', user=sessionInfo, url='/questions/unanswered',
                            hot_articles=hot_articles)
@@ -211,7 +211,7 @@ def new_articles(request, red):
     print '=================='
 
     if cookie.has_key('session_id'):
-        sessionInfo = getSessionInfo(red, cookie['session_id'], ['nickname', 'head_url', 'reputation'])
+        sessionInfo = getSessionInfo(red, cookie['session_id'], ['nickname', 'head_url', 'reputation', 'authority'])
 
     return render_template('articles.html', articles=arti, user=sessionInfo, type='new')
 
@@ -231,6 +231,6 @@ def hot_articles(request, red):
     arti = loadArticles.load_articles(int(page), 2)
 
     if cookie.has_key('session_id'):
-        sessionInfo = getSessionInfo(red, cookie['session_id'], ['nickname', 'head_url', 'reputation'])
+        sessionInfo = getSessionInfo(red, cookie['session_id'], ['nickname', 'head_url', 'reputation', 'authority'])
 
     return render_template('articles.html', articles=arti, user=sessionInfo, type='hot')

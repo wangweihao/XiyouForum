@@ -33,9 +33,10 @@ def login(req, red):
         return False, DB_ERR_NO_PWD, info, ret_data
     elif user_count == 1:
         try:
-            user = model.db.session.query(model.User.id, model.User.nickname).\
+            user = model.db.session.query(model.User.id, model.User.nickname, model.User.authority).\
                 filter_by(email=req['email'], passwd=req['passwd']).one()
-            ret_data['nickname'] = user.nickname
+            ret_data['nickname']  = user.nickname
+            ret_data['authority'] = user.authority
             info = "登录成功"
             logger.info(info)
         except Exception as e:
@@ -60,5 +61,6 @@ def login(req, red):
         red.hset(session_id, 'nickname',   ret_data['nickname'])
         red.hset(session_id, 'head_url',   ret_data['head_url'])
         red.hset(session_id, 'reputation', ret_data['reputation'])
+        red.hset(session_id, 'authority',  ret_data['authority'])
 
         return True,  SUCCESS, info, ret_data
